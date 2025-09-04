@@ -14,14 +14,26 @@ public class SelenideSearchTest {
     }
 
     @Test
-    void softAssertionsShouldHaveExampleJUnit5Code() {
+    void softAssertionsShouldHaveExampleJUnit5CodeTest() {
 
         open("/selenide/selenide");
         $("#wiki-tab").click();
         $("button.js-wiki-more-pages-link").click();
         $("#wiki-pages-box").shouldHave(text("SoftAssertions"));
         $$("#wiki-pages-box li a").findBy(text("SoftAssertions")).click();
-        $("#wiki-body").shouldHave(text("JUnit5"));
+        $(".repository-content").shouldHave(text(
+                """
+                        @ExtendWith({SoftAssertsExtension.class})
+                        class Tests {
+                          @Test
+                          void test() {
+                            Configuration.assertionMode = SOFT;
+                            open("page.html");
+                        
+                            $("#first").should(visible).click();
+                            $("#second").should(visible).click();
+                          }
+                        }"""));
 
     }
 
